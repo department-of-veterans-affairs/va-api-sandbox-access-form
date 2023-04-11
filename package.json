@@ -1,0 +1,32 @@
+{
+  "name": "@department-of-veterans-affairs/sandbox-access-form",
+  "version": "1.0.0",
+  "description": "",
+  "files": [
+    "lib/**/*"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "test": "jest --config jestconfig.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "@typescript-eslint/parser": "^5.58.0",
+    "eslint": "^8.38.0",
+    "eslint-plugin-react": "^7.32.2",
+    "jest": "^29.5.0",
+    "prettier": "^2.8.7",
+    "ts-jest": "^29.1.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^5.0.4"
+  }
+}
