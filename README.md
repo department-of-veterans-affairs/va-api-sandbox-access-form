@@ -1,7 +1,11 @@
 # Sandbox Access Form
 
 ```
+For use in a project:
 npm install git+ssh://git@github.com:department-of-veterans-affairs/va-api-sandbox-signup-form.git
+
+For local development:
+npm install ../sandbox-access-form
 ```
 
 ```
