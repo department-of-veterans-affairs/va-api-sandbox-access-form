@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { FC, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { DevApplicationRequest, DevApplicationResponse, InternalApiInfo } from './types/apply';
@@ -77,11 +76,8 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
   const setCookie = useCookies(['CSRF-TOKEN'])[1];
 
   const { acgPkceAuthUrl, ccgPublicKeyUrl, postUrl, termsOfServiceUrl } = urls;
-  console.log(authTypes, onSuccess, urls, internalOnly, postUrl);
 
   const handleSubmit = async (values: Values): Promise<void> => {
-    console.log('handleSubmit called');
-    console.log(values);
     const applicationBody: DevApplicationRequest = {
       ...values,
       apis: values.typeAndApi,

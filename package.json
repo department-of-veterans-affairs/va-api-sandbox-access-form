@@ -8,12 +8,12 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "npm uninstall react react-dom && tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "test": "jest --config jestconfig.json",
-    "watch": "tsc -w"
+    "test": "npm install react@17.0.2 react-dom@17.0.2 && jest --config jestconfig.json",
+    "watch": "npm uninstall react react-dom && tsc -w"
   },
   "keywords": [],
   "author": "",
@@ -23,7 +23,6 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^13.3.0",
     "@types/jest": "^29.5.0",
-    "@types/react": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
     "eslint": "^8.38.0",
@@ -43,9 +42,5 @@
     "react-cookie": "^4.1.1",
     "react-router-dom": "^6.10.0",
     "uuid": "^9.0.0"
-  },
-  "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
   }
 }
