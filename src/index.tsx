@@ -11,6 +11,7 @@ import TermsOfServiceCheckbox from './components/forms/TermsOfServiceCheckbox';
 import { HttpErrorResponse, ResponseType, makeRequest } from './utils/makeRequest';
 import { OAuthAcgAppInfo } from './components/OAuthAcgAppInfo';
 import { OAuthCcgAppInfo } from './components/OAuthCcgAppInfo';
+import { InternalOnlyInfo } from './components/InternalOnlyInfo';
 
 export interface Values {
   description: string;
@@ -221,6 +222,8 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
 
                   {authType === 'acg' && <OAuthAcgAppInfo acgPkceAuthUrl={acgPkceAuthUrl} />}
                   {authType === 'ccg' && <OAuthCcgAppInfo ccgPublicKeyUrl={ccgPublicKeyUrl} />}
+
+                  {internalOnly && <InternalOnlyInfo />}
 
                   <TextField
                     as="textarea"
