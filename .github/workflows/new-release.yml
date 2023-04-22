@@ -3,8 +3,6 @@ name: Create new sandbox-access-form release package
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
 
 jobs:
   create_release:
@@ -54,6 +52,6 @@ jobs:
             RELEASE_TITLE="$RELEASE_TITLE (#$PR_NUMBER)"
           fi
           NEW_TAG=$(git tag --sort=-creatordate | head -1 | awk -F. -v OFS=. '{$NF++;print}')
-          VERSION=${NEW_TAG#"developer-portal/v"}
+          VERSION=${NEW_TAG#"v"}
           gh release create $NEW_TAG --title="$RELEASE_TITLE"
           gh release upload $NEW_TAG "release.tar.bz2#${NEW_TAG}.tar.bz2"
