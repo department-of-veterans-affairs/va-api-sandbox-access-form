@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { FormikErrors } from 'formik';
 import {
   validateEmail,
@@ -16,8 +15,6 @@ import {
 import { Values } from './';
 
 export const validateForm = (values: Values): FormikErrors<Values> => {
-  console.log('validateForm called');
-  console.log(values);
   const errors: FormikErrors<Values> = {
     email: validateEmail(values.email),
     firstName: validatePresence('first name', values.firstName),
@@ -60,8 +57,6 @@ export const validateForm = (values: Values): FormikErrors<Values> => {
   //     delete errors.internalApiInfo;
   //   }
   // }
-
-  console.log(errors);
 
   /*
    * This removes any fields that have an 'undefined' error (as returned by validatePresence)
