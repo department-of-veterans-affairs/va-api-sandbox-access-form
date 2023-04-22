@@ -1,0 +1,59 @@
+name: Create new sandbox-access-form release package
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    outputs:
+      node_version: ${{ steps.node_version.outputs.node_version }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: latest_release
+        name: Get latest release with tag
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          LATEST_RELEASE=$(gh release view --json tagName | jq -r '.tagName')
+          echo $LATEST_RELEASE
+          echo "tag=$LATEST_RELEASE" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{steps.latest_release.outputs.tag}}
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Build
+        run: npm run build
+
+      - name: Create archive tarball
+        run: |
+          tar -C lib -cf ./release.tar.bz2 .
+
+      - name: Create the release
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          RELEASE_TITLE=`gh api /repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA | jq -r '.commit.message' | head -1`
+          echo $RELEASE_TITLE
+          # If the commit message doesn't include the PR number at the end, append it.
+          if ! [[ $RELEASE_TITLE =~ \(\#[0-9]\) ]]; then
+            echo "PR number missing. This will append it to the release title."
+            PR_NUMBER=`gh api -X GET search/issues -f q="$GITHUB_SHA" | jq -r '.items[0].number'`
+            RELEASE_TITLE="$RELEASE_TITLE (#$PR_NUMBER)"
+          fi
+          NEW_TAG=$(git tag --sort=-creatordate | head -1 | awk -F. -v OFS=. '{$NF++;print}')
+          VERSION=${NEW_TAG#"developer-portal/v"}
+          gh release create $NEW_TAG --title="$RELEASE_TITLE"
+          gh release upload $NEW_TAG "release.tar.bz2#${NEW_TAG}.tar.bz2"
