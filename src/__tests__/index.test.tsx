@@ -6,9 +6,7 @@ import React from 'react';
 import 'jest';
 import '@testing-library/jest-dom/extend-expect';
 import { SandboxAccessForm } from '..';
-import { fakeCategories } from '../__mocks__/fakeCategories';
 import { makeRequest } from '../utils/makeRequest';
-import { APICategories, VaInternalOnly } from '../schemas';
 
 jest.mock('../utils/makeRequest', () => ({
   ...jest.requireActual<Record<string, string>>('../utils/makeRequest'),
@@ -98,6 +96,8 @@ describe('SandboxAccessFormLegacy', () => {
 
       setTimeout(() => {
         // setAuthType needs time to expand the ACG fields
+        // purposely broken test
+        expect(screen.findByRole('textbox', { hidden: true, name: 'typeAndApi' })).toEqual('apikey/lotr');
         expect(screen.findByRole('radio', { name: 'Yes' })).toBeInTheDocument();
         expect(screen.findByRole('radio', { name: 'No' })).toBeInTheDocument();
         expect(screen.findByRole('textbox', { name: /OAuth Redirect URI/ })).toBeInTheDocument();
