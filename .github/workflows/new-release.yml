@@ -9,18 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - id: latest_release
-        name: Get latest release with tag
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: |
-          LATEST_RELEASE=$(gh release view --json tagName | jq -r '.tagName')
-          echo $LATEST_RELEASE
-          echo "tag=$LATEST_RELEASE" >> $GITHUB_OUTPUT
-
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{steps.latest_release.outputs.tag}}
 
       - name: Setup node
         uses: actions/setup-node@v3
