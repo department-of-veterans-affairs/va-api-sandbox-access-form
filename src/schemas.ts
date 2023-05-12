@@ -13,22 +13,6 @@ export interface VeteranRedirectMessage {
   message: string;
 }
 
-export interface APICategoryContent {
-  readonly consumerDocsLinkText: string;
-  readonly overview: string;
-  readonly shortDescription: string;
-  readonly quickstart?: string;
-  readonly veteranRedirect?: VeteranRedirectMessage;
-}
-
-export const ApiCategoryContentPropType = PropTypes.shape({
-  consumerDocsLinkText: PropTypes.string,
-  overview: PropTypes.any.isRequired,
-  quickstart: PropTypes.any,
-  shortDescription: PropTypes.string.isRequired,
-  veteranRedirect: PropTypes.any,
-});
-
 export interface APIDocSource {
   readonly metadataUrl?: string;
   readonly openApiUrl?: string;
@@ -117,20 +101,6 @@ export const ApiDescriptionPropType = PropTypes.shape({
   releaseNotes: PropTypes.any.isRequired,
   urlFragment: PropTypes.string.isRequired,
 });
-
-export interface BaseAPICategory {
-  readonly apis: APIDescription[];
-  readonly properName: string;
-  readonly name: string;
-}
-
-export interface APICategory extends BaseAPICategory {
-  readonly content: APICategoryContent;
-}
-
-export interface APICategories {
-  [key: string]: APICategory;
-}
 
 export enum VaInternalOnly {
   StrictlyInternal = 'StrictlyInternal',

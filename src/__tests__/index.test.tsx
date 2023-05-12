@@ -6,9 +6,7 @@ import React from 'react';
 import 'jest';
 import '@testing-library/jest-dom/extend-expect';
 import { SandboxAccessForm } from '..';
-import { fakeCategories } from '../__mocks__/fakeCategories';
 import { makeRequest } from '../utils/makeRequest';
-import { APICategories, VaInternalOnly } from '../schemas';
 
 jest.mock('../utils/makeRequest', () => ({
   ...jest.requireActual<Record<string, string>>('../utils/makeRequest'),
