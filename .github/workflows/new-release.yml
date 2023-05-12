@@ -7,8 +7,6 @@ on:
 jobs:
   create_release:
     runs-on: ubuntu-latest
-    outputs:
-      node_version: ${{ steps.node_version.outputs.node_version }}
     steps:
       - uses: actions/checkout@v3
       - id: latest_release
