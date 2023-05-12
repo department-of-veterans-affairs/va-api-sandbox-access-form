@@ -35,9 +35,11 @@ jobs:
           if ! [[ $RELEASE_TITLE =~ \(\#[0-9]\) ]]; then
             echo "PR number missing. This will append it to the release title."
             PR_NUMBER=`gh api -X GET search/issues -f q="$GITHUB_SHA" | jq -r '.items[0].number'`
+            echo $PR_NUMBER;
             RELEASE_TITLE="$RELEASE_TITLE (#$PR_NUMBER)"
+            echo $RELEASE_TITLE;
           fi
           NEW_TAG=$(git tag --sort=-creatordate | head -1 | awk -F. -v OFS=. '{$NF++;print}')
-          VERSION=${NEW_TAG#"v"}
+          echo $NEW_TAG;
           gh release create $NEW_TAG --title="$RELEASE_TITLE"
           gh release upload $NEW_TAG "release.tar.bz2#${NEW_TAG}.tar.bz2"
