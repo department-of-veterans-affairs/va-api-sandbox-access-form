@@ -1,6 +1,6 @@
 {
   "name": "@department-of-veterans-affairs/sandbox-access-form",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "",
   "files": [
     "lib/**/*"
@@ -9,8 +9,8 @@
     "type": "git",
     "url": "https://github.com/department-of-veterans-affairs/va-api-sandbox-access-form.git"
   },
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "build": "npm uninstall react react-dom && tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
