@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Get current hash
+        run: git log
+
       - name: Run Build
         run: npm run build
 
