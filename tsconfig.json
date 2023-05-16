@@ -4,12 +4,11 @@
     "declaration": true,
     "esModuleInterop": true,
     "jsx": "react",
-    "module": "system",
-    "outFile": "./lib/index.js",
+    "module": "commonjs",
+    "outDir": "./lib",
     "strict": true,
     "suppressImplicitAnyIndexErrors": true,
-    "ignoreDeprecations": "5.0",
-    "moduleResolution": "nodenext"
+    "ignoreDeprecations": "5.0"
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*", ".eslintrc.js", "**/__mocks__/*", "lib/*"]
