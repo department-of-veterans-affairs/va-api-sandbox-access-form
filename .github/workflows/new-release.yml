@@ -34,12 +34,13 @@ jobs:
       - name: Create archive tarball
         run: |
           ls -la ./lib
-          tar -cf ./release.tar.bz2 lib
+          tar -cf ./release.tar.bz2 lib package.json
           mkdir testing
           cp ./release.tar.bz2 testing/release.tar.bz2
           cd testing
           tar -xf release.tar.bz2
           ls -la ./
+          ls -la ./lib
 
       - name: Create the release
         env:
