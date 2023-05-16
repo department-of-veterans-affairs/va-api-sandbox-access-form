@@ -3,7 +3,7 @@
   "version": "0.1.12",
   "description": "",
   "files": [
-    "lib/**/*"
+    "lib"
   ],
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
     "watch": "npm uninstall react react-dom && tsc -w"
   },
   "keywords": [],
-  "author": "",
+  "author": "Giles Wells",
   "license": "ISC",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
