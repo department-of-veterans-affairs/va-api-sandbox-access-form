@@ -33,7 +33,7 @@ jobs:
 
       - name: Create archive tarball
         run: |
-          tar -C lib -cf ./release.tar.bz2 .
+          tar -cf ./release.tar.bz2 lib
 
       - name: Create the release
         env:
