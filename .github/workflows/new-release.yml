@@ -38,7 +38,7 @@ jobs:
           mkdir testing
           cp ./release.tar.bz2 testing/release.tar.bz2
           cd testing
-          tar -xzf release.tar.bz2
+          tar -xf release.tar.bz2
           ls -la ./
 
       - name: Create the release
