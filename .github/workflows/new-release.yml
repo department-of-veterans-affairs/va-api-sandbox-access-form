@@ -26,14 +26,20 @@ jobs:
       - name: Run Build
         run: npm run build
       
-      - name: Show build results
-        run: |
-          ls -la ./
-          ls -la ./lib
+      # - name: Show build results
+      #   run: |
+      #     ls -la ./
+      #     ls -la ./lib
 
       - name: Create archive tarball
         run: |
+          ls -la ./lib
           tar -cf ./release.tar.bz2 lib
+          mkdir testing
+          cp ./release.tar.bz2 testing/release.tar.bz2
+          cd testing
+          tar -xzf release.tar.bz2
+          ls -la ./
 
       - name: Create the release
         env:
