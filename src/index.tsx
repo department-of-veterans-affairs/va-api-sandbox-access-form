@@ -137,13 +137,13 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
     const target = event.target as HTMLInputElement;
     if (target.name === 'typeAndApi') {
       switch (target.id) {
-        case 'typeAndApiFormFieldacgclaims':
+        case `typeAndApiFormFieldacg${apiIdentifier}`:
           setAuthType('acg');
           break;
-        case 'typeAndApiFormFieldccgclaims':
+        case `typeAndApiFormFieldccg${apiIdentifier}`:
           setAuthType('ccg');
           break;
-        case 'typeAndApiFormFieldapikeyclaims':
+        case `typeAndApiFormFieldapikey${apiIdentifier}`:
           setAuthType('apikey');
           break;
         default:
@@ -192,7 +192,7 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
                     <CheckboxRadioField
                       type="radio"
                       label="API Key"
-                      name="authType"
+                      name="typeAndApi"
                       value={`apikey/${apiIdentifier}`}
                       required
                     />
