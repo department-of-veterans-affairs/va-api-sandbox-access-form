@@ -1,6 +1,6 @@
 {
   "name": "@department-of-veterans-affairs/sandbox-access-form",
-  "version": "0.1.14",
+  "version": "0.1.16",
   "description": "",
   "files": [
     "lib"
@@ -17,7 +17,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "test": "npm install react@17.0.2 react-dom@17.0.2 && jest --config jestconfig.json",
-    "watch": "npm uninstall react react-dom && tsc -w"
+    "watch": "npm uninstall react react-dom && tsc -w",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "Giles Wells",
@@ -31,6 +32,7 @@
     "@typescript-eslint/parser": "^5.58.0",
     "eslint": "^8.38.0",
     "eslint-plugin-react": "^7.32.2",
+    "husky": "^8.0.3",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "moment": "^2.29.4",
