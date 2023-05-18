@@ -9,7 +9,8 @@ interface OAuthAcgAppInfoProps {
 }
 
 const OAuthAcgAppInfo: React.FC<OAuthAcgAppInfoProps> = ({ acgPkceAuthUrl }): JSX.Element => (
-  <div>
+  <div className="sandbox-access-form-oauth-details">
+    <h3>Authorization Code Flow</h3>
     <div className="vads-u-margin-top--4">
       Apps that cannot securely hide a client secret must use the{' '}
       <a href="https://oauth.net/2/pkce/" target="_blank" rel="noreferrer">

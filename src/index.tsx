@@ -181,6 +181,13 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
               <TextField label="First name" name="firstName" required className="vads-u-margin-top--4" />
               <TextField label="Last name" name="lastName" required className="vads-u-margin-top--4" />
               <TextField label="Email" name="email" type="email" required className="vads-u-margin-top--4" />
+              <TextField
+                as="textarea"
+                label="Briefly describe your project and how you'll use this API."
+                name="description"
+                className="vads-u-margin-top--4"
+              />
+
               {authTypes.length > 1 && (
                 <FieldSet
                   className="vads-u-margin-top--4"
@@ -222,13 +229,6 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
               {authType === 'ccg' && <OAuthCcgAppInfo ccgPublicKeyUrl={ccgPublicKeyUrl} />}
 
               {internalOnly && <InternalOnlyInfo />}
-
-              <TextField
-                as="textarea"
-                label="Briefly describe how your organization will use VA APIs:"
-                name="description"
-                className="vads-u-margin-top--4"
-              />
 
               <TermsOfServiceCheckbox termsOfServiceUrl={termsOfServiceUrl} />
               <button
