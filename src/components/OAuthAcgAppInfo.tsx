@@ -24,7 +24,7 @@ const OAuthAcgAppInfo: React.FC<OAuthAcgAppInfoProps> = ({ acgPkceAuthUrl }): JS
       .
     </div>
     <FieldSet
-      className={classNames('vads-u-margin-top--4', 'vads-u-padding-left--1p5')}
+      className="vads-u-margin-top--4"
       legend="Can your application securely hide a client secret?"
       legendClassName="legend-label"
       name="oAuthApplicationType"

@@ -30,7 +30,7 @@ const CheckboxRadioField: FC<CheckboxRadioFieldProps> = ({
 }) => {
   const { errors, touched } = useFormikContext();
   let radioClass =
-    type === 'radio' ? 'vads-u-margin--0 vads-u-padding-y--1 vads-u-padding-x--1p5' : '';
+    type === 'radio' ? 'vads-u-margin--0 vads-u-padding-y--1' : '';
   radioClass = labelClassOverride ?? radioClass;
 
   const idReadyName = toHtmlId(name);
