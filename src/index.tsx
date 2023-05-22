@@ -81,7 +81,7 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
   const handleSubmit = async (values: Values): Promise<void> => {
     const applicationBody: DevApplicationRequest = {
       ...values,
-      apis: values.typeAndApi,
+      apis: [values.typeAndApi],
     };
     const forgeryToken = 'CsrfBlocker';
 
@@ -225,8 +225,14 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
                 </FieldSet>
               )}
 
-              {authType === 'acg' && <OAuthAcgAppInfo acgPkceAuthUrl={acgPkceAuthUrl} />}
-              {authType === 'ccg' && <OAuthCcgAppInfo ccgPublicKeyUrl={ccgPublicKeyUrl} />}
+              {authType === 'acg' && <OAuthAcgAppInfo
+                acgPkceAuthUrl={acgPkceAuthUrl}
+                multipleTypes={authTypes.length > 1}
+              />}
+              {authType === 'ccg' && <OAuthCcgAppInfo
+                ccgPublicKeyUrl={ccgPublicKeyUrl}
+                multipleTypes={authTypes.length > 1}
+              />}
 
               {internalOnly && <InternalOnlyInfo />}
 

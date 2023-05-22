@@ -46,10 +46,6 @@ const TextField: FC<TextFieldProps> = ({
   const containerClass = shouldDisplayErrors ? 'usa-input-error' : '';
   const labelClass = shouldDisplayErrors ? 'usa-input-error-label' : '';
   const validationClass = shouldDisplayErrors ? 'usa-input-error-message' : '';
-  const fieldClass = classNames({
-    'vads-u-margin-top--1': props.as !== 'textarea',
-    'vads-u-margin-top--2p5': props.as === 'textarea',
-  });
 
   const idReadyName = toHtmlId(name);
   const descriptionId = description ? `${idReadyName}FormFieldDescription` : '';
@@ -85,7 +81,7 @@ const TextField: FC<TextFieldProps> = ({
 
       <Field
         id={fieldId}
-        className={classNames(fieldClass, customFieldClass)}
+        className={classNames('vads-u-margin-top--1', customFieldClass)}
         name={name}
         required={required}
         aria-describedby={`${errorId} ${descriptionId}`}

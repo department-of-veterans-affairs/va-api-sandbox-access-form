@@ -6,12 +6,15 @@ import TextField from './forms/TextField';
 
 interface OAuthAcgAppInfoProps {
   acgPkceAuthUrl: string;
+  multipleTypes: boolean;
 }
 
-const OAuthAcgAppInfo: React.FC<OAuthAcgAppInfoProps> = ({ acgPkceAuthUrl }): JSX.Element => (
-  <div className="sandbox-access-form-oauth-details">
+const OAuthAcgAppInfo: React.FC<OAuthAcgAppInfoProps> = ({ acgPkceAuthUrl, multipleTypes }): JSX.Element => (
+  <div className={classNames('sandbox-access-form-oauth-details', {
+    'multiple-types': multipleTypes,
+  })}>
     <h3>Authorization Code Flow</h3>
-    <div className="vads-u-margin-top--4">
+    <div className="vads-u-margin-top--2">
       Apps that cannot securely hide a client secret must use the{' '}
       <a href="https://oauth.net/2/pkce/" target="_blank" rel="noreferrer">
         PKCE
@@ -24,7 +27,7 @@ const OAuthAcgAppInfo: React.FC<OAuthAcgAppInfoProps> = ({ acgPkceAuthUrl }): JS
       .
     </div>
     <FieldSet
-      className="vads-u-margin-top--4"
+      className="vads-u-margin-top--2"
       legend="Can your application securely hide a client secret?"
       legendClassName="legend-label"
       name="oAuthApplicationType"
@@ -52,7 +55,7 @@ const OAuthAcgAppInfo: React.FC<OAuthAcgAppInfoProps> = ({ acgPkceAuthUrl }): JS
       placeholder="http://localhost:8080/oauth/callback"
       required
       className={classNames(
-        'vads-u-margin-top--4',
+        'vads-u-margin-top--2',
         'oauth-uri-input',
         'xsmall-screen:vads-l-col--10',
       )}

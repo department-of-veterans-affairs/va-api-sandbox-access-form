@@ -15,7 +15,7 @@ export interface DevApplicationRequest {
   lastName: string;
   organization: string;
   description: string;
-  apis: string;
+  apis: string[];
   oAuthApplicationType: string;
   oAuthRedirectURI: string;
   termsOfService: boolean;
