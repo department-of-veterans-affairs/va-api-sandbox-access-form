@@ -2,17 +2,10 @@
 import { FormikErrors } from 'formik';
 import {
   validateEmail,
-  // validateVAEmail,
   validatePresence,
   validateOAuthRedirectURI,
   validateOAuthApplicationType,
-  // isVaEmail,
 } from './utils/validators';
-// import {
-//   includesInternalSponsorshipAPI,
-//   includesAuthCodeAPI,
-//   includesCcgAPI,
-// } from '../../../../apiDefs/query';
 import { Values } from './';
 
 export const validateForm = (values: Values): FormikErrors<Values> => {
@@ -29,10 +22,6 @@ export const validateForm = (values: Values): FormikErrors<Values> => {
     errors.termsOfService = 'You must agree to the terms of service to continue.';
   }
 
-  // if (!anyApiSelected(values)) {
-  //   errors.apis = 'Choose at least one API.';
-  // }
-
   if (values.typeAndApi.startsWith('acg')) {
     errors.oAuthApplicationType = validateOAuthApplicationType(values.oAuthApplicationType);
     errors.oAuthRedirectURI = validateOAuthRedirectURI(values.oAuthRedirectURI);
@@ -41,25 +30,6 @@ export const validateForm = (values: Values): FormikErrors<Values> => {
   if (values.typeAndApi.startsWith('ccg')) {
     errors.oAuthPublicKey = validatePresence('oAuthPublicKey', values.oAuthPublicKey);
   }
-
-  // if (includesInternalSponsorshipAPI(values.apis)) {
-  //   errors.internalApiInfo = {
-  //     programName: validatePresence('program name', values.internalApiInfo.programName),
-  //     sponsorEmail: validateVAEmail(values.internalApiInfo.sponsorEmail),
-  //     // eslint-disable-next-line no-negated-condition
-  //     vaEmail: !isVaEmail(values.email) ? validateVAEmail(values.internalApiInfo.vaEmail) : '',
-  //   };
-
-  //   const internalInfoErrors = errors.internalApiInfo;
-
-  //   if (
-  //     !internalInfoErrors.programName &&
-  //     !internalInfoErrors.sponsorEmail &&
-  //     !internalInfoErrors.vaEmail
-  //   ) {
-  //     delete errors.internalApiInfo;
-  //   }
-  // }
 
   console.log(errors);
 

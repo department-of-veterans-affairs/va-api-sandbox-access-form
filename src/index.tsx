@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { DevApplicationRequest, DevApplicationResponse, InternalApiInfo } from './types/apply';
+import { DevApplicationRequest, DevApplicationResponse } from './types/apply';
 import { Form, Formik } from 'formik';
 import { validateForm } from './validateForm';
 import TextField from './components/forms/TextField';
@@ -11,14 +11,12 @@ import TermsOfServiceCheckbox from './components/forms/TermsOfServiceCheckbox';
 import { HttpErrorResponse, ResponseType, makeRequest } from './utils/makeRequest';
 import { OAuthAcgAppInfo } from './components/OAuthAcgAppInfo';
 import { OAuthCcgAppInfo } from './components/OAuthCcgAppInfo';
-import { InternalOnlyInfo } from './components/InternalOnlyInfo';
 
 export interface Values {
   description: string;
   email: string;
   firstName: string;
   lastName: string;
-  internalApiInfo: InternalApiInfo;
   oAuthApplicationType: string;
   oAuthPublicKey: string;
   oAuthRedirectURI: string;
@@ -31,11 +29,6 @@ const initialValues = {
   description: '',
   email: '',
   firstName: '',
-  internalApiInfo: {
-    programName: '',
-    sponsorEmail: '',
-    vaEmail: '',
-  },
   lastName: '',
   oAuthApplicationType: '',
   oAuthPublicKey: '',
@@ -56,7 +49,6 @@ interface SandboxAccessFormProps {
     postUrl: string;
     termsOfServiceUrl: string;
   };
-  internalOnly: boolean;
 }
 
 interface SandboxAccessFormError extends HttpErrorResponse {
@@ -71,7 +63,6 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
   onFailure,
   onSuccess,
   urls,
-  internalOnly,
 }) => {
   const [authType, setAuthType] = useState<string | null>();
   const setCookie = useCookies(['CSRF-TOKEN'])[1];
@@ -84,14 +75,6 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
       apis: [values.typeAndApi],
     };
     const forgeryToken = 'CsrfBlocker';
-
-    if (!internalOnly) {
-      delete applicationBody.internalApiInfo;
-    }
-
-    if (applicationBody.internalApiInfo && !applicationBody.internalApiInfo.vaEmail) {
-      applicationBody.internalApiInfo.vaEmail = applicationBody.email;
-    }
 
     try {
       setCookie('CSRF-TOKEN', forgeryToken, {
@@ -233,8 +216,6 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
                 ccgPublicKeyUrl={ccgPublicKeyUrl}
                 multipleTypes={authTypes.length > 1}
               />}
-
-              {internalOnly && <InternalOnlyInfo />}
 
               <TermsOfServiceCheckbox termsOfServiceUrl={termsOfServiceUrl} />
               <button

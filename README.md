@@ -4,7 +4,6 @@
 <SandboxAccessForm
   apiIdentifier="" // apiRef
   authTypes={[]} // ['apikey' | 'acg' | 'ccg']
-  internalOnly={false} // boolean
   onFailure={mockOnFailure} // failure on network request callback (form validation is client side)
   onSuccess={mockOnSuccess} // successful signup (interface DevApplicationResponse)
   urls={{
