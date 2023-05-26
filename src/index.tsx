@@ -163,7 +163,7 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
             <Form noValidate onChange={authTypeChange}>
               <TextField label="First name" name="firstName" required className="vads-u-margin-top--4" />
               <TextField label="Last name" name="lastName" required className="vads-u-margin-top--4" />
-              <TextField label="Email" name="email" type="email" required className="vads-u-margin-top--4" />
+              <TextField label="Email address" name="email" type="email" required className="vads-u-margin-top--4" />
               <TextField
                 as="textarea"
                 label="Briefly describe your project and how you'll use this API."
