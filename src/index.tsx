@@ -72,7 +72,7 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
   const handleSubmit = async (values: Values): Promise<void> => {
     const applicationBody: DevApplicationRequest = {
       ...values,
-      apis: [values.typeAndApi],
+      apis: values.typeAndApi,
     };
     const forgeryToken = 'CsrfBlocker';
 
