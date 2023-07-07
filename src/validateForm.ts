@@ -9,8 +9,6 @@ import {
 import { Values } from './';
 
 export const validateForm = (values: Values): FormikErrors<Values> => {
-  console.log('validateForm called');
-  console.log(values);
   const errors: FormikErrors<Values> = {
     email: validateEmail(values.email),
     firstName: validatePresence('first name', values.firstName),
@@ -30,8 +28,6 @@ export const validateForm = (values: Values): FormikErrors<Values> => {
   if (values.typeAndApi.startsWith('ccg')) {
     errors.oAuthPublicKey = validatePresence('oAuthPublicKey', values.oAuthPublicKey);
   }
-
-  console.log(errors);
 
   /*
    * This removes any fields that have an 'undefined' error (as returned by validatePresence)
