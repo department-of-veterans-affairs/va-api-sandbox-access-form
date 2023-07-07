@@ -190,7 +190,7 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
                   {authTypes.includes('acg') && (
                     <CheckboxRadioField
                       type="radio"
-                      label="Authorization Code Flow"
+                      label="Authorization Code Grant"
                       name="typeAndApi"
                       value={`acg/${apiIdentifier}`}
                       required
