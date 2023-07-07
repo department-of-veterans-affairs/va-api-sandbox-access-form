@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { DevApplicationRequest, DevApplicationResponse } from './types/apply';
 import { Form, Formik } from 'formik';
@@ -57,13 +57,7 @@ interface SandboxAccessFormError extends HttpErrorResponse {
   };
 }
 
-const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
-  apiIdentifier,
-  authTypes,
-  onFailure,
-  onSuccess,
-  urls,
-}) => {
+export const SandboxAccessForm = ({ apiIdentifier, authTypes, onFailure, onSuccess, urls }: SandboxAccessFormProps) => {
   const [authType, setAuthType] = useState<string | null>();
   const setCookie = useCookies(['CSRF-TOKEN'])[1];
 
@@ -100,9 +94,7 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
       const json = response.body as DevApplicationResponse;
 
       if (!json.token && !json.clientID && !json.email) {
-        throw Error(
-          'Developer Application endpoint returned successful response status with an invalid response body',
-        );
+        throw Error('Developer Application endpoint returned successful response status with an invalid response body');
       }
 
       onSuccess({
@@ -172,12 +164,7 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
               />
 
               {authTypes.length > 1 && (
-                <FieldSet
-                  className="vads-u-margin-top--4"
-                  legend="Choose your auth type"
-                  name="typeAndApi"
-                  required
-                >
+                <FieldSet className="vads-u-margin-top--4" legend="Choose your auth type" name="typeAndApi" required>
                   {authTypes.includes('apikey') && (
                     <CheckboxRadioField
                       type="radio"
@@ -190,7 +177,7 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
                   {authTypes.includes('acg') && (
                     <CheckboxRadioField
                       type="radio"
-                      label="Authorization Code Flow"
+                      label="Authorization Code Grant"
                       name="typeAndApi"
                       value={`acg/${apiIdentifier}`}
                       required
@@ -208,21 +195,15 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
                 </FieldSet>
               )}
 
-              {authType === 'acg' && <OAuthAcgAppInfo
-                acgPkceAuthUrl={acgPkceAuthUrl}
-                multipleTypes={authTypes.length > 1}
-              />}
-              {authType === 'ccg' && <OAuthCcgAppInfo
-                ccgPublicKeyUrl={ccgPublicKeyUrl}
-                multipleTypes={authTypes.length > 1}
-              />}
+              {authType === 'acg' && (
+                <OAuthAcgAppInfo acgPkceAuthUrl={acgPkceAuthUrl} multipleTypes={authTypes.length > 1} />
+              )}
+              {authType === 'ccg' && (
+                <OAuthCcgAppInfo ccgPublicKeyUrl={ccgPublicKeyUrl} multipleTypes={authTypes.length > 1} />
+              )}
 
               <TermsOfServiceCheckbox termsOfServiceUrl={termsOfServiceUrl} />
-              <button
-                onClick={handleSubmitButtonClick}
-                type="submit"
-                className="vads-u-width--auto"
-              >
+              <button onClick={handleSubmitButtonClick} type="submit" className="vads-u-width--auto">
                 {isSubmitting ? 'Sending...' : 'Submit'}
               </button>
             </Form>
@@ -232,5 +213,3 @@ const SandboxAccessForm: FC<SandboxAccessFormProps> = ({
     </BrowserRouter>
   );
 };
-
-export { SandboxAccessForm };
