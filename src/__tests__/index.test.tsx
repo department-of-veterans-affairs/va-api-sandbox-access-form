@@ -20,7 +20,6 @@ const postUrl = '/platform-backend/v0/consumers/applications';
 const mockOnFailure = jest.fn();
 const mockOnSuccess = jest.fn();
 const mockMakeRequest = makeRequest as jest.Mock;
-const mockHandleSubmit = jest.fn();
 
 interface ElementProps {
   apiIdentifier: string;
