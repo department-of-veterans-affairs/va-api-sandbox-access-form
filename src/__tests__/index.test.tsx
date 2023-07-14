@@ -199,6 +199,7 @@ describe('SandboxAccessFormLegacy', () => {
     });
 
     // Commented for now as this will only work if it's the only test running using it.only()
+    // Ticket to fix this: https://jira.devops.va.gov/browse/API-28227
     // it('submits the form when all required fields are filled', async () => {
     //   const props: ElementProps = {
     //     apiIdentifier: 'lotr',
