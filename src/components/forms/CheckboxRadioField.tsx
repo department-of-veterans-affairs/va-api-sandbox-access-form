@@ -64,6 +64,7 @@ const CheckboxRadioField: FC<CheckboxRadioFieldProps> = ({
         id={fieldId}
         name={name}
         type={type}
+        role={type}
         value={value}
         innerRef={innerRef}
         aria-invalid={shouldDisplayErrors}

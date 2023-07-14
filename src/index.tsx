@@ -104,7 +104,7 @@ export const SandboxAccessForm = ({ apiIdentifier, authTypes, onFailure, onSucce
       });
     } catch (error: unknown) {
       // This will only capture the errors on 4xx errors from the lighthouse-platform-backend.
-      const errors = (error as SandboxAccessFormError).body.errors ?? [];
+      const errors = (error as SandboxAccessFormError).body?.errors ?? [];
       onFailure(errors);
     }
   };
