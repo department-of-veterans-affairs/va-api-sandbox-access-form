@@ -23,8 +23,7 @@ const mockMakeRequest = makeRequest as jest.Mock;
 
 interface ElementProps {
   apiIdentifier: string;
-  authTypes: [ 'acg' | 'ccg' | 'apikey' ];
-  internalOnly: boolean;
+  authTypes: ['acg' | 'ccg' | 'apikey'];
   urls: ElementUrlProps;
 }
 
@@ -40,7 +39,7 @@ const defaultUrls: ElementUrlProps = {
   ccgPublicKeyUrl,
   postUrl,
   termsOfServiceUrl,
-}
+};
 
 const renderComponent = async (props: ElementProps): Promise<void> => {
   await waitFor(() => cleanup()); // clean up beforeEach render if we're testing a different page
@@ -49,7 +48,6 @@ const renderComponent = async (props: ElementProps): Promise<void> => {
     <SandboxAccessForm
       apiIdentifier={props.apiIdentifier}
       authTypes={props.authTypes}
-      internalOnly={props.internalOnly}
       onFailure={mockOnFailure}
       onSuccess={mockOnSuccess}
       urls={{
@@ -58,7 +56,7 @@ const renderComponent = async (props: ElementProps): Promise<void> => {
         postUrl,
         termsOfServiceUrl,
       }}
-    />
+    />,
   );
 };
 
@@ -78,9 +76,8 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['acg'],
-        internalOnly: false,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
 
       void userEvent.type(screen.getByRole('textbox', { name: /First name/ }), 'Samwise', {
@@ -92,7 +89,7 @@ describe('SandboxAccessFormLegacy', () => {
       void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'sam@theshire.net', {
         delay: 0.01,
       });
-      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms' }));
+      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
 
       setTimeout(() => {
         // setAuthType needs time to expand the ACG fields
@@ -111,9 +108,8 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['ccg'],
-        internalOnly: false,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
       void userEvent.type(screen.getByRole('textbox', { name: /First name/ }), 'Samwise', {
         delay: 0.01,
@@ -124,11 +120,14 @@ describe('SandboxAccessFormLegacy', () => {
       void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'sam@theshire.net', {
         delay: 0.01,
       });
-      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms' }));
+      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
 
       setTimeout(() => {
         expect(screen.findByRole('textbox', { name: /OAuth public key/ })).toBeInTheDocument();
-        expect(screen.findByText('Learn how to generate a public key.')).toHaveAttribute('href', defaultUrls.ccgPublicKeyUrl);
+        expect(screen.findByText('Learn how to generate a public key.')).toHaveAttribute(
+          'href',
+          defaultUrls.ccgPublicKeyUrl,
+        );
       }, 0);
     });
   });
@@ -138,13 +137,12 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['apikey'],
-        internalOnly: false,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
 
       const descriptionTextarea: HTMLInputElement = screen.getByRole('textbox', {
-        name: 'Briefly describe how your organization will use VA APIs:',
+        name: "Briefly describe your project and how you'll use this API.",
       }) as HTMLInputElement;
 
       void userEvent.type(descriptionTextarea, 'One Ring to rule them all');
@@ -158,13 +156,12 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['apikey'],
-        internalOnly: false,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
 
       const tosCheckbox: HTMLInputElement = screen.getByRole('checkbox', {
-        name: 'I agree to the terms',
+        name: 'I agree to the terms of service.',
       }) as HTMLInputElement;
 
       expect(tosCheckbox).toBeInTheDocument();
@@ -179,9 +176,8 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['apikey'],
-        internalOnly: false,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
       const tosLink = screen.getByRole('link', { name: 'terms of service' });
 
@@ -204,9 +200,8 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['apikey'],
-        internalOnly: false,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
 
       expect(screen.queryByRole('button', { name: 'Sending...' })).not.toBeInTheDocument();
@@ -222,7 +217,7 @@ describe('SandboxAccessFormLegacy', () => {
         delay: 0.01,
       });
 
-      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms' }));
+      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
       act(() => {
         userEvent.click(screen.getByRole('button', { name: 'Submit' }));
       });
@@ -234,9 +229,8 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['apikey'],
-        internalOnly: false,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
 
       void userEvent.type(screen.getByRole('textbox', { name: /First name/ }), 'Peregrin', {
@@ -250,7 +244,7 @@ describe('SandboxAccessFormLegacy', () => {
         delay: 0.01,
       });
 
-      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms' }));
+      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
       act(() => {
         userEvent.click(screen.getByRole('button', { name: 'Submit' }));
       });
@@ -265,9 +259,8 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['apikey'],
-        internalOnly: true,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
 
       void userEvent.type(screen.getByRole('textbox', { name: /First name/ }), 'Peregrin', {
@@ -281,7 +274,7 @@ describe('SandboxAccessFormLegacy', () => {
         delay: 0.01,
       });
 
-      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms' }));
+      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
       act(() => {
         userEvent.click(screen.getByRole('button', { name: 'Submit' }));
       });
@@ -296,9 +289,8 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['apikey'],
-        internalOnly: true,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
 
       void userEvent.type(screen.getByRole('textbox', { name: /First name/ }), 'Peregrin', {
@@ -313,7 +305,7 @@ describe('SandboxAccessFormLegacy', () => {
           delay: 0.01,
         })
         .then(() => {
-          userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms' }));
+          userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
           act(() => {
             userEvent.click(screen.getByRole('button', { name: 'Submit' }));
           });
@@ -330,9 +322,8 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['apikey'],
-        internalOnly: true,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
 
       void userEvent.type(screen.getByRole('textbox', { name: /First name/ }), 'Peregrin', {
@@ -347,22 +338,14 @@ describe('SandboxAccessFormLegacy', () => {
       });
 
       setTimeout(() => {
-        void userEvent.type(
-          screen.getByRole('textbox', { name: /sponsor email/ }),
-          'frodo.baggins@theshire.net',
-          {
-            delay: 0.01,
-          },
-        );
-        void userEvent.type(
-          screen.getByRole('textbox', { name: /VA issued email/ }),
-          'samwise@theshire.net',
-          {
-            delay: 0.01,
-          },
-        );
+        void userEvent.type(screen.getByRole('textbox', { name: /sponsor email/ }), 'frodo.baggins@theshire.net', {
+          delay: 0.01,
+        });
+        void userEvent.type(screen.getByRole('textbox', { name: /VA issued email/ }), 'samwise@theshire.net', {
+          delay: 0.01,
+        });
       }, 0);
-      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms' }));
+      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
       act(() => {
         userEvent.click(screen.getByRole('button', { name: 'Submit' }));
       });
@@ -377,9 +360,8 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['apikey'],
-        internalOnly: true,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
 
       expect(screen.queryByRole('button', { name: 'Sending...' })).not.toBeInTheDocument();
@@ -393,7 +375,7 @@ describe('SandboxAccessFormLegacy', () => {
       void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'pippin@theshire.net', {
         delay: 0.01,
       });
-      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms' }));
+      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
       act(() => {
         userEvent.click(screen.getByRole('button', { name: 'Submit' }));
       });
@@ -405,9 +387,8 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['apikey'],
-        internalOnly: true,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
 
       void userEvent.type(screen.getByRole('textbox', { name: /First name/ }), 'Meriadoc', {
@@ -419,7 +400,7 @@ describe('SandboxAccessFormLegacy', () => {
       void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'pippin@theshire.net', {
         delay: 0.01,
       });
-      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms' }));
+      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
 
       act(() => {
         userEvent.click(screen.getByRole('button', { name: 'Submit' }));
@@ -440,9 +421,8 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['apikey'],
-        internalOnly: true,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
 
       expect(
@@ -460,7 +440,7 @@ describe('SandboxAccessFormLegacy', () => {
       void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'merry@theshire.net', {
         delay: 0.01,
       });
-      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms' }));
+      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
 
       act(() => {
         userEvent.click(screen.getByRole('button', { name: 'Submit' }));
@@ -478,9 +458,8 @@ describe('SandboxAccessFormLegacy', () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['apikey'],
-        internalOnly: true,
-        urls: defaultUrls
-      }
+        urls: defaultUrls,
+      };
       await renderComponent(props);
 
       void userEvent.type(screen.getByRole('textbox', { name: /First name/ }), 'Meriadoc', {
@@ -492,7 +471,7 @@ describe('SandboxAccessFormLegacy', () => {
       void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'merry@theshire.net', {
         delay: 0.01,
       });
-      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms' }));
+      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
 
       userEvent.click(screen.getByRole('button', { name: 'Submit' }));
 
