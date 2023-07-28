@@ -126,6 +126,34 @@ describe('SandboxAccessFormLegacy', () => {
         defaultUrls.ccgPublicKeyUrl,
       );
     });
+
+    it('triggers oAuthPublicKey validation', async () => {
+      const props: ElementProps = {
+        apiIdentifier: 'lotr',
+        authTypes: ['ccg'],
+        urls: defaultUrls,
+      };
+      await renderComponent(props);
+      void userEvent.type(screen.getByRole('textbox', { name: /First name/ }), 'Samwise', {
+        delay: 0.01,
+      });
+      void userEvent.type(screen.getByRole('textbox', { name: /Last name/ }), 'Gamgee', {
+        delay: 0.01,
+      });
+      void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'sam@theshire.net', {
+        delay: 0.01,
+      });
+      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
+      void userEvent.type(screen.getByText('OAuth public key'), '{{}}', { delay: 0.01 });
+
+      await act(async () => {
+        userEvent.click(screen.getByRole('button', { name: 'Submit' }));
+      });
+
+      expect(
+        await screen.findByText('Please enter a valid RSA-generated key in JSON Web Key format.'),
+      ).toBeInTheDocument();
+    });
   });
 
   describe('description textarea', () => {
