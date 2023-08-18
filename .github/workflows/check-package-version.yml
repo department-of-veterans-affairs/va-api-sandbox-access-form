@@ -1,0 +1,47 @@
+name: Check package version is available for release
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  check_for_release:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+      - id: get_proposed_version
+        name: Get package.json version
+        run: |
+          PROPOSED_VERSION=$(jq '.version' package.json -r)
+          echo "proposed_version=$PROPOSED_VERSION" >> $GITHUB_OUTPUT
+
+      - id: check_for_release
+        name: Find matching release tagName (this should fail)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROPOSED_VERSION: ${{steps.get_proposed_version.outputs.proposed_version}}
+        continue-on-error: true
+        run: gh release view v$PROPOSED_VERSION
+
+      - name: Report lack of pre-existing release
+        if: steps.check_for_release.outcome == 'failure'
+        run: |
+          # We need check_for_release to fail so we know the tagName is available
+          exit 0;
+
+      - name: Comment on the PR with info on failure
+        if: steps.check_for_release.outcome == 'success'
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            The `package.json` file must have it's `version` field updated to a tagName that isn't already associated with a release. Please update.
+
+      - name: Report Failure
+        if: steps.check_for_release.outcome == 'success'
+        run: |
+          # If check_for_release returns details of an existing release
+          # that means we cannot merge. Return an error code.
+
+          exit 1;
