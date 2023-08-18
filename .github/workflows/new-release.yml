@@ -26,11 +26,6 @@ jobs:
       - name: Run Build
         run: npm run build
       
-      # - name: Show build results
-      #   run: |
-      #     ls -la ./
-      #     ls -la ./lib
-
       - name: Create archive tarball
         run: |
           ls -la ./lib
@@ -56,7 +51,7 @@ jobs:
             RELEASE_TITLE="$RELEASE_TITLE (#$PR_NUMBER)"
             echo $RELEASE_TITLE;
           fi
-          NEW_TAG=$(git tag --sort=-creatordate | head -1 | awk -F. -v OFS=. '{$NF++;print}')
+          NEW_TAG=$(jq '.version' package.json -r)
           echo $NEW_TAG;
           gh release create $NEW_TAG --title="$RELEASE_TITLE"
           gh release upload $NEW_TAG "release.tar.bz2#${NEW_TAG}.tar.bz2"
