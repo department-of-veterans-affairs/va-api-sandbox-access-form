@@ -1,8 +1,9 @@
 /* eslint-disable max-nested-callbacks */
 /* eslint-disable max-lines */
+import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 import 'jest';
 import '@testing-library/jest-dom/extend-expect';
 import { SandboxAccessForm } from '..';
@@ -45,18 +46,20 @@ const renderComponent = async (props: ElementProps): Promise<void> => {
   await waitFor(() => cleanup()); // clean up beforeEach render if we're testing a different page
   const { acgPkceAuthUrl, ccgPublicKeyUrl, postUrl, termsOfServiceUrl } = props.urls;
   render(
-    <SandboxAccessForm
-      apiIdentifier={props.apiIdentifier}
-      authTypes={props.authTypes}
-      onFailure={mockOnFailure}
-      onSuccess={mockOnSuccess}
-      urls={{
-        acgPkceAuthUrl,
-        ccgPublicKeyUrl,
-        postUrl,
-        termsOfServiceUrl,
-      }}
-    />,
+    <MemoryRouter>
+      <SandboxAccessForm
+        apiIdentifier={props.apiIdentifier}
+        authTypes={props.authTypes}
+        onFailure={mockOnFailure}
+        onSuccess={mockOnSuccess}
+        urls={{
+          acgPkceAuthUrl,
+          ccgPublicKeyUrl,
+          postUrl,
+          termsOfServiceUrl,
+        }}
+      />
+    </MemoryRouter>,
   );
 };
 
