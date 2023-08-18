@@ -23,10 +23,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PROPOSED_VERSION: ${{steps.get_proposed_version.outputs.proposed_version}}
         continue-on-error: true
-        run: gh release view $PROPOSED_VERSION
+        run: gh release view v$PROPOSED_VERSION
 
       - name: Report lack of pre-existing release
-        if: steps.check_for_release.outcome != 'success'
+        if: steps.check_for_release.outcome == 'failure'
         run: |
           # We need check_for_release to fail so we know the tagName is available
           exit 0;
