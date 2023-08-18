@@ -6,7 +6,6 @@ import { validateForm } from './validateForm';
 import TextField from './components/forms/TextField';
 import FieldSet from './components/forms/FieldSet';
 import CheckboxRadioField from './components/forms/CheckboxRadioField';
-import { BrowserRouter } from 'react-router-dom';
 import TermsOfServiceCheckbox from './components/forms/TermsOfServiceCheckbox';
 import { HttpErrorResponse, ResponseType, makeRequest } from './utils/makeRequest';
 import { OAuthAcgAppInfo } from './components/OAuthAcgAppInfo';
@@ -132,84 +131,82 @@ export const SandboxAccessForm = ({ apiIdentifier, authTypes, onFailure, onSucce
   }
 
   return (
-    <BrowserRouter>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validate={validateForm}
-        validateOnBlur={false}
-        validateOnChange={false}
-      >
-        {({ isSubmitting, values }): React.ReactNode => {
-          const handleSubmitButtonClick = (): void => {
-            setTimeout(() => {
-              const errorElements = document.querySelectorAll<HTMLElement>('[aria-invalid=true]');
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validate={validateForm}
+      validateOnBlur={false}
+      validateOnChange={false}
+    >
+      {({ isSubmitting }): JSX.Element => {
+        const handleSubmitButtonClick = (): void => {
+          setTimeout(() => {
+            const errorElements = document.querySelectorAll<HTMLElement>('[aria-invalid=true]');
 
-              if (errorElements.length > 0) {
-                errorElements[0].focus();
-              }
-            }, 0);
-          };
+            if (errorElements.length > 0) {
+              errorElements[0].focus();
+            }
+          }, 0);
+        };
 
-          return (
-            <Form noValidate onChange={authTypeChange}>
-              <TextField label="First name" name="firstName" required className="vads-u-margin-top--4" />
-              <TextField label="Last name" name="lastName" required className="vads-u-margin-top--4" />
-              <TextField label="Email address" name="email" type="email" required className="vads-u-margin-top--4" />
-              <TextField
-                as="textarea"
-                label="Briefly describe your project and how you'll use this API."
-                name="description"
-                className="vads-u-margin-top--4"
-              />
+        return (
+          <Form noValidate onChange={authTypeChange}>
+            <TextField label="First name" name="firstName" required className="vads-u-margin-top--4" />
+            <TextField label="Last name" name="lastName" required className="vads-u-margin-top--4" />
+            <TextField label="Email address" name="email" type="email" required className="vads-u-margin-top--4" />
+            <TextField
+              as="textarea"
+              label="Briefly describe your project and how you'll use this API."
+              name="description"
+              className="vads-u-margin-top--4"
+            />
 
-              {authTypes.length > 1 && (
-                <FieldSet className="vads-u-margin-top--4" legend="Choose your auth type" name="typeAndApi" required>
-                  {authTypes.includes('apikey') && (
-                    <CheckboxRadioField
-                      type="radio"
-                      label="API Key"
-                      name="typeAndApi"
-                      value={`apikey/${apiIdentifier}`}
-                      required
-                    />
-                  )}
-                  {authTypes.includes('acg') && (
-                    <CheckboxRadioField
-                      type="radio"
-                      label="Authorization Code Grant"
-                      name="typeAndApi"
-                      value={`acg/${apiIdentifier}`}
-                      required
-                    />
-                  )}
-                  {authTypes.includes('ccg') && (
-                    <CheckboxRadioField
-                      type="radio"
-                      label="Client Credentials Grant"
-                      name="typeAndApi"
-                      value={`ccg/${apiIdentifier}`}
-                      required
-                    />
-                  )}
-                </FieldSet>
-              )}
+            {authTypes.length > 1 && (
+              <FieldSet className="vads-u-margin-top--4" legend="Choose your auth type" name="typeAndApi" required>
+                {authTypes.includes('apikey') && (
+                  <CheckboxRadioField
+                    type="radio"
+                    label="API Key"
+                    name="typeAndApi"
+                    value={`apikey/${apiIdentifier}`}
+                    required
+                  />
+                )}
+                {authTypes.includes('acg') && (
+                  <CheckboxRadioField
+                    type="radio"
+                    label="Authorization Code Grant"
+                    name="typeAndApi"
+                    value={`acg/${apiIdentifier}`}
+                    required
+                  />
+                )}
+                {authTypes.includes('ccg') && (
+                  <CheckboxRadioField
+                    type="radio"
+                    label="Client Credentials Grant"
+                    name="typeAndApi"
+                    value={`ccg/${apiIdentifier}`}
+                    required
+                  />
+                )}
+              </FieldSet>
+            )}
 
-              {authType === 'acg' && (
-                <OAuthAcgAppInfo acgPkceAuthUrl={acgPkceAuthUrl} multipleTypes={authTypes.length > 1} />
-              )}
-              {authType === 'ccg' && (
-                <OAuthCcgAppInfo ccgPublicKeyUrl={ccgPublicKeyUrl} multipleTypes={authTypes.length > 1} />
-              )}
+            {authType === 'acg' && (
+              <OAuthAcgAppInfo acgPkceAuthUrl={acgPkceAuthUrl} multipleTypes={authTypes.length > 1} />
+            )}
+            {authType === 'ccg' && (
+              <OAuthCcgAppInfo ccgPublicKeyUrl={ccgPublicKeyUrl} multipleTypes={authTypes.length > 1} />
+            )}
 
-              <TermsOfServiceCheckbox termsOfServiceUrl={termsOfServiceUrl} />
-              <button onClick={handleSubmitButtonClick} type="submit" className="vads-u-width--auto">
-                {isSubmitting ? 'Sending...' : 'Submit'}
-              </button>
-            </Form>
-          );
-        }}
-      </Formik>
-    </BrowserRouter>
+            <TermsOfServiceCheckbox termsOfServiceUrl={termsOfServiceUrl} />
+            <button onClick={handleSubmitButtonClick} type="submit" className="vads-u-width--auto">
+              {isSubmitting ? 'Sending...' : 'Submit'}
+            </button>
+          </Form>
+        );
+      }}
+    </Formik>
   );
 };

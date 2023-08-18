@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import React from 'react';
 export interface Values {
     description: string;
     email: string;
@@ -23,5 +23,5 @@ interface SandboxAccessFormProps {
         termsOfServiceUrl: string;
     };
 }
-export declare const SandboxAccessForm: ({ apiIdentifier, authTypes, onFailure, onSuccess, urls }: SandboxAccessFormProps) => JSX.Element;
+export declare const SandboxAccessForm: ({ apiIdentifier, authTypes, onFailure, onSuccess, urls }: SandboxAccessFormProps) => React.JSX.Element;
 export {};
