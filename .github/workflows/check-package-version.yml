@@ -20,6 +20,7 @@ jobs:
       - id: check_for_release
         name: Find matching release tagName (this should fail)
         env:
+          GH_TOKEN: ${{ github.token }}
           PROPOSED_VERSION: ${{steps.get_proposed_version.outputs.proposed_version}}
         continue-on-error: true
         run: gh release view $PROPOSED_VERSION
