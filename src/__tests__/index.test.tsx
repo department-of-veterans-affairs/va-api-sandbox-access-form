@@ -192,7 +192,7 @@ describe('SandboxAccessFormLegacy', () => {
   });
 
   describe('form validation', () => {
-    it.only('triggers validation rules on submit', async () => {
+    it('triggers validation rules on submit', async () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
         authTypes: ['apikey'],
