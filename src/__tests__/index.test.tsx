@@ -2,7 +2,7 @@
 /* eslint-disable max-lines */
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import 'jest';
 import '@testing-library/jest-dom/extend-expect';
@@ -92,6 +92,9 @@ describe('SandboxAccessFormLegacy', () => {
       void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'sam@theshire.net', {
         delay: 0.01,
       });
+      void userEvent.type(screen.getByRole('textbox', { name: /Organization/ }), 'The Fellowship of the Devs', {
+        delay: 0.01,
+      });
       await act(async () => {
         userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
       });
@@ -119,6 +122,9 @@ describe('SandboxAccessFormLegacy', () => {
         delay: 0.01,
       });
       void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'sam@theshire.net', {
+        delay: 0.01,
+      });
+      void userEvent.type(screen.getByRole('textbox', { name: /Organization/ }), 'The Fellowship of the Devs', {
         delay: 0.01,
       });
       userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
@@ -185,6 +191,72 @@ describe('SandboxAccessFormLegacy', () => {
     });
   });
 
+  describe('form validation', () => {
+    it.only('triggers validation rules on submit', async () => {
+      const props: ElementProps = {
+        apiIdentifier: 'lotr',
+        authTypes: ['apikey'],
+        urls: defaultUrls,
+      };
+      await renderComponent(props);
+
+      expect(screen.queryByRole('button', { name: 'Sending...' })).not.toBeInTheDocument();
+
+      await act(async () => {
+        // No fields completed, expect all the validation errors
+        userEvent.click(screen.getByRole('button', { name: 'Submit' }));
+      });
+      expect(await screen.findByText('Enter your first name.')).toBeInTheDocument();
+      expect(await screen.findByText('Enter your last name.')).toBeInTheDocument();
+      expect(await screen.findByText('Enter a valid email address.')).toBeInTheDocument();
+      expect(await screen.findByText('Enter your organization.')).toBeInTheDocument();
+      expect(await screen.findByText('You must agree to the terms of service to continue.')).toBeInTheDocument();
+      void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'pippin@theshire', {
+        delay: 0.01,
+      });
+      await act(async () => {
+        // Only a bad email address added, expect all the validation errors
+        userEvent.click(screen.getByRole('button', { name: 'Submit' }));
+      });
+      expect(await screen.findByText('Enter your first name.')).toBeInTheDocument();
+      expect(await screen.findByText('Enter your last name.')).toBeInTheDocument();
+      expect(await screen.findByText('Enter a valid email address.')).toBeInTheDocument();
+      expect(await screen.findByText('Enter your organization.')).toBeInTheDocument();
+      expect(await screen.findByText('You must agree to the terms of service to continue.')).toBeInTheDocument();
+    });
+
+    it('validates oauth fields when clicked', async () => {
+      const props: ElementProps = {
+        apiIdentifier: 'lotr',
+        authTypes: ['acg'],
+        urls: defaultUrls,
+      };
+      await renderComponent(props);
+
+      void userEvent.type(screen.getByRole('textbox', { name: /First name/ }), 'Peregrin', {
+        delay: 0.01,
+      });
+      void userEvent.type(screen.getByRole('textbox', { name: /Last name/ }), 'Took', {
+        delay: 0.01,
+      });
+
+      void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'pippin@theshire.com', {
+        delay: 0.01,
+      });
+      void userEvent.type(screen.getByRole('textbox', { name: /Organization/ }), 'The Fellowship of the Devs', {
+        delay: 0.01,
+      });
+
+      await act(async () => {
+        userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
+        userEvent.click(screen.getByRole('button', { name: 'Submit' }));
+      });
+
+      expect(await screen.findByText('Choose an option.')).toBeInTheDocument();
+      expect(await screen.findByText('Enter an http or https URI.')).toBeInTheDocument();
+    });
+  })
+
   describe('submit button', () => {
     beforeEach(() => {
       mockMakeRequest.mockResolvedValue({
@@ -225,63 +297,6 @@ describe('SandboxAccessFormLegacy', () => {
     //   expect(mockOnFailure).toHaveBeenCalledTimes(0);
     // });
 
-    it('triggers validation when clicked', async () => {
-      const props: ElementProps = {
-        apiIdentifier: 'lotr',
-        authTypes: ['apikey'],
-        urls: defaultUrls,
-      };
-      await renderComponent(props);
-
-      expect(screen.queryByRole('button', { name: 'Sending...' })).not.toBeInTheDocument();
-
-      void userEvent.type(screen.getByRole('textbox', { name: /First name/ }), 'Peregrin', {
-        delay: 0.01,
-      });
-      void userEvent.type(screen.getByRole('textbox', { name: /Last name/ }), 'Took', {
-        delay: 0.01,
-      });
-
-      void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'pippin@theshire', {
-        delay: 0.01,
-      });
-
-      userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
-      await act(async () => {
-        userEvent.click(screen.getByRole('button', { name: 'Submit' }));
-      });
-
-      expect(await screen.findByText('Enter a valid email address.')).toBeInTheDocument();
-    });
-
-    it('validates oauth fields when clicked', async () => {
-      const props: ElementProps = {
-        apiIdentifier: 'lotr',
-        authTypes: ['acg'],
-        urls: defaultUrls,
-      };
-      await renderComponent(props);
-
-      void userEvent.type(screen.getByRole('textbox', { name: /First name/ }), 'Peregrin', {
-        delay: 0.01,
-      });
-      void userEvent.type(screen.getByRole('textbox', { name: /Last name/ }), 'Took', {
-        delay: 0.01,
-      });
-
-      void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'pippin@theshire.com', {
-        delay: 0.01,
-      });
-
-      await act(async () => {
-        userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
-        userEvent.click(screen.getByRole('button', { name: 'Submit' }));
-      });
-
-      expect(await screen.findByText('Choose an option.')).toBeInTheDocument();
-      expect(await screen.findByText('Enter an http or https URI.')).toBeInTheDocument();
-    });
-
     it('displays `Sending...` during form submission', async () => {
       const props: ElementProps = {
         apiIdentifier: 'lotr',
@@ -300,6 +315,9 @@ describe('SandboxAccessFormLegacy', () => {
         delay: 0.01,
       });
       void userEvent.type(screen.getByRole('textbox', { name: /Email/ }), 'pippin@theshire.net', {
+        delay: 0.01,
+      });
+      void userEvent.type(screen.getByRole('textbox', { name: /Organization/ }), 'The Fellowship of the Devs', {
         delay: 0.01,
       });
       userEvent.click(screen.getByRole('checkbox', { name: 'I agree to the terms of service.' }));
