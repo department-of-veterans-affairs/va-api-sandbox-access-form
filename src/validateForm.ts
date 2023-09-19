@@ -14,6 +14,7 @@ export const validateForm = (values: Values): FormikErrors<Values> => {
     email: validateEmail(values.email),
     firstName: validatePresence('first name', values.firstName),
     lastName: validatePresence('last name', values.lastName),
+    organization: validatePresence('organization', values.organization),
     typeAndApi: validatePresence('auth type', values.typeAndApi),
   };
 
