@@ -5,6 +5,7 @@ import {
   validatePresence,
   validateOAuthRedirectURI,
   validateOAuthApplicationType,
+  validateOAuthPublicKey,
 } from './utils/validators';
 import { Values } from './';
 
@@ -27,7 +28,7 @@ export const validateForm = (values: Values): FormikErrors<Values> => {
   }
 
   if (values.typeAndApi.startsWith('ccg')) {
-    errors.oAuthPublicKey = validatePresence('oAuthPublicKey', values.oAuthPublicKey);
+    errors.oAuthPublicKey = validateOAuthPublicKey(values.oAuthPublicKey);
   }
 
   /*
