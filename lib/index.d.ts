@@ -1,5 +1,6 @@
 import React from 'react';
 export interface Values {
+    benefitsIntakeAttestation: boolean;
     description: string;
     email: string;
     firstName: string;
