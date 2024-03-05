@@ -10,8 +10,10 @@ import TermsOfServiceCheckbox from './components/forms/TermsOfServiceCheckbox';
 import { HttpErrorResponse, ResponseType, makeRequest } from './utils/makeRequest';
 import { OAuthAcgAppInfo } from './components/OAuthAcgAppInfo';
 import { OAuthCcgAppInfo } from './components/OAuthCcgAppInfo';
+import { BenefitsIntakeAttestationModal } from './components/attestations/BenefitsIntakeAttestationModal';
 
 export interface Values {
+  benefitsIntakeAttestation: boolean;
   description: string;
   email: string;
   firstName: string;
@@ -25,6 +27,7 @@ export interface Values {
 }
 
 const initialValues = {
+  benefitsIntakeAttestation: false,
   description: '',
   email: '',
   firstName: '',
@@ -202,6 +205,7 @@ export const SandboxAccessForm = ({ apiIdentifier, authTypes, onFailure, onSucce
             )}
 
             <TermsOfServiceCheckbox termsOfServiceUrl={termsOfServiceUrl} />
+            <BenefitsIntakeAttestationModal />
             <button onClick={handleSubmitButtonClick} type="submit" className="vads-u-width--auto">
               {isSubmitting ? 'Sending...' : 'Submit'}
             </button>
